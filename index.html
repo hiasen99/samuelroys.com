@@ -311,10 +311,79 @@ footer{
   border-top:1px solid var(--line);
   font-size:.85rem;
   color:var(--ink-faint);
-  display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;justify-content:space-between;
+  display:flex;flex-wrap:wrap;gap:1rem 1.25rem;
+  justify-content:space-between;align-items:center;
 }
-footer a{color:var(--ink-faint)}
-footer a:hover{color:var(--accent)}
+footer .copy{font-variant-numeric:tabular-nums}
+
+/* Reluctant social links */
+.socials{
+  display:flex;align-items:center;gap:.35rem;
+  list-style:none;margin:0;padding:0;
+}
+.social{
+  position:relative;
+  display:grid;place-items:center;
+  width:36px;height:36px;
+  border-radius:50%;
+  color:var(--ink-faint);
+  background:transparent;
+  transition:color .2s ease, background .2s ease, transform .35s cubic-bezier(.2,.9,.3,1);
+  will-change:transform;
+}
+.social svg{width:17px;height:17px;pointer-events:none}
+.social:hover{color:var(--accent);background:var(--accent-soft);text-decoration:none}
+
+/* Caught: stops dodging and slumps a little */
+.social.caught{
+  transform:none!important;
+  color:var(--accent-deep);
+  background:var(--accent-soft);
+  animation:slump .3s ease;
+}
+@keyframes slump{
+  0%{transform:translateY(0) rotate(0)}
+  40%{transform:translateY(3px) rotate(-7deg)}
+  100%{transform:translateY(0) rotate(0)}
+}
+
+/* The grumble bubble */
+.mutter{
+  position:absolute;
+  bottom:calc(100% + 8px);
+  left:50%;
+  transform:translate(-50%,6px);
+  white-space:nowrap;
+  font-size:.78rem;
+  font-weight:500;
+  line-height:1;
+  color:var(--bg);
+  background:var(--ink);
+  padding:.5rem .7rem;
+  border-radius:8px;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .22s ease, transform .22s ease;
+  z-index:5;
+}
+.mutter::after{
+  content:"";position:absolute;top:100%;left:50%;
+  transform:translateX(-50%);
+  border:5px solid transparent;
+  border-top-color:var(--ink);
+}
+.mutter.show{opacity:1;transform:translate(-50%,0)}
+
+/* Keep bubbles inside the viewport on narrow screens */
+@media (max-width:34rem){
+  footer{justify-content:flex-start}
+  .socials li:first-child .mutter{left:0;transform:translate(0,6px)}
+  .socials li:first-child .mutter.show{transform:translate(0,0)}
+  .socials li:first-child .mutter::after{left:18px}
+  .socials li:last-child .mutter{left:auto;right:0;transform:translate(0,6px)}
+  .socials li:last-child .mutter.show{transform:translate(0,0)}
+  .socials li:last-child .mutter::after{left:auto;right:18px}
+}
 
 @media (prefers-reduced-motion: reduce){
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -331,13 +400,20 @@ footer a:hover{color:var(--accent)}
   <header>
     <div class="avatar" aria-hidden="true">SR</div>
     <h1>Samuel Roys</h1>
-    <p class="tagline">I build small, sharp tools that solve a specific problem well.</p>
+    <p class="tagline">Small, sharp tools that each solve one specific problem well.</p>
 
     <p class="bio">
-      Most of what's below started as something I needed and couldn't find — a timing
-      sheet that actually did the math, a worksheet generator that printed correctly.
-      They're all <strong>free, fast and run entirely in your browser</strong>. If one of
-      them is useful to you, that's the whole point.
+      Every tool below started the same way: something needed to exist, and it didn't. A
+      timing sheet that actually did the math. A worksheet generator that printed
+      correctly the first time. Ideas that used to die right there, because the gap
+      between <em>this should exist</em> and <em>this exists</em> was months of work I
+      couldn't do.
+    </p>
+
+    <p class="bio">
+      <strong>That gap is gone.</strong> These are built with AI — I describe the problem
+      precisely, and the thing gets made. None of them would be here otherwise. They're
+      all free, fast, and run entirely in your browser.
     </p>
 
     <ul class="links">
@@ -444,21 +520,29 @@ footer a:hover{color:var(--accent)}
 
     <ul class="timeline">
       <li>
-        <p class="role">Your role here</p>
-        <p class="org">Organization</p>
-        <span class="period">2024 — Present</span>
-        <p class="detail">
-          One or two sentences on what you do and what you've shipped.
-          Replace this block with your real history.
-        </p>
+        <p class="role">Chief Technology Officer</p>
+        <p class="org">Yonderchild</p>
+        <span class="period">2019 — Present</span>
       </li>
       <li>
-        <p class="role">Previous role</p>
-        <p class="org">Organization</p>
-        <span class="period">2021 — 2024</span>
-        <p class="detail">
-          Copy this <code>&lt;li&gt;</code> block to add more entries.
-        </p>
+        <p class="role">Technology Expert</p>
+        <p class="org">Wretched / Gospel Partners Media</p>
+        <span class="period">2015 — 2018</span>
+      </li>
+      <li>
+        <p class="role">IT and Support</p>
+        <p class="org">Specialty Management Group</p>
+        <span class="period">2014 — 2015</span>
+      </li>
+      <li>
+        <p class="role">Customer Support</p>
+        <p class="org">Millenicom</p>
+        <span class="period">2012 — 2014</span>
+      </li>
+      <li>
+        <p class="role">Technical Director</p>
+        <p class="org">Practical Technology Group</p>
+        <span class="period">2011 — 2012</span>
       </li>
     </ul>
   </section>
@@ -480,14 +564,87 @@ footer a:hover{color:var(--accent)}
   </section>
 
   <footer>
-    <span>© <span id="year">2026</span> Samuel Roys</span>
-    <span>Built by hand. One file, no tracking.</span>
+    <span class="copy">© <span id="year">2026</span> Samuel Roys</span>
+
+    <!-- Reluctant social links. Swap the href values for your real profiles.
+         data-mutter is what the link grumbles before it gives in. -->
+    <ul class="socials" id="socials">
+      <li><a class="social" href="https://facebook.com/" aria-label="Facebook"
+             data-mutter="Facebook? In this economy? …fine.">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.45 2.89h-2.33v6.99A10 10 0 0 0 22 12Z"/></svg>
+      </a></li>
+
+      <li><a class="social" href="https://x.com/" aria-label="X"
+             data-mutter="It had a different name when I signed up.">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.22-6.82-5.96 6.82H1.68l7.73-8.84L1.25 2.25h6.82l4.71 6.23 5.46-6.23Zm-1.16 17.52h1.83L7.02 4.13H5.05l12.03 15.64Z"/></svg>
+      </a></li>
+
+      <li><a class="social" href="https://instagram.com/" aria-label="Instagram"
+             data-mutter="Fair warning: it is 90% pictures of screens.">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg>
+      </a></li>
+
+      <li><a class="social" href="https://youtube.com/" aria-label="YouTube"
+             data-mutter="Do you have a minute to hear about my YouTube?">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.5a3 3 0 0 0-2.12-2.13C19.5 3.85 12 3.85 12 3.85s-7.5 0-9.38.52A3 3 0 0 0 .5 6.5C0 8.4 0 12 0 12s0 3.6.5 5.5a3 3 0 0 0 2.12 2.13c1.88.52 9.38.52 9.38.52s7.5 0 9.38-.52A3 3 0 0 0 23.5 17.5C24 15.6 24 12 24 12s0-3.6-.5-5.5ZM9.6 15.6V8.4l6.25 3.6-6.25 3.6Z"/></svg>
+      </a></li>
+    </ul>
   </footer>
 
 </main>
 
 <script>
+(function () {
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var links = document.querySelectorAll('.social');
+
+  links.forEach(function (link) {
+    var busy = false;
+
+    /* Lean away from the cursor — never far enough to actually escape. */
+    if (!reduced) {
+      link.addEventListener('mousemove', function (e) {
+        if (busy) return;
+        var r = link.getBoundingClientRect();
+        var dx = e.clientX - (r.left + r.width / 2);
+        var dy = e.clientY - (r.top + r.height / 2);
+        link.style.transform =
+          'translate(' + (-dx * 0.32) + 'px,' + (-dy * 0.32) + 'px)';
+      });
+      link.addEventListener('mouseleave', function () {
+        if (!busy) link.style.transform = '';
+      });
+    }
+
+    /* Grumble, then give in and open it anyway. */
+    link.addEventListener('click', function (e) {
+      if (busy) return;          // second click during the grumble: let it through
+      e.preventDefault();
+      busy = true;
+
+      link.style.transform = '';
+      link.classList.add('caught');
+
+      var bubble = document.createElement('span');
+      bubble.className = 'mutter';
+      bubble.textContent = link.dataset.mutter;
+      link.appendChild(bubble);
+      requestAnimationFrame(function () { bubble.classList.add('show'); });
+
+      setTimeout(function () {
+        window.open(link.href, '_blank', 'noopener');
+        bubble.classList.remove('show');
+        setTimeout(function () {
+          bubble.remove();
+          link.classList.remove('caught');
+          busy = false;
+        }, 260);
+      }, reduced ? 500 : 1250);
+    });
+  });
+})();
 </script>
 </body>
 </html>
