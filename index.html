@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Samuel Roys</title>
+<meta name="description" content="Samuel Roys — things I make. Small, useful tools built to solve real problems.">
+<meta name="theme-color" content="#fdfaf6">
+
+<!-- Social preview -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Samuel Roys">
+<meta property="og:description" content="Small, useful tools built to solve real problems.">
+<meta property="og:url" content="https://samuelroys.com">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+
+<style>
+/* ------------------------------------------------------------------
+   Tokens
+------------------------------------------------------------------ */
+:root{
+  --bg:#fdfaf6;
+  --bg-raised:#ffffff;
+  --ink:#2e2a26;
+  --ink-soft:#6b6259;
+  --ink-faint:#9a9088;
+  --line:#e8e0d6;
+  --accent:#c2643c;
+  --accent-soft:#f4e5db;
+  --accent-deep:#a04f2d;
+  --radius:18px;
+  --shadow:0 1px 2px rgba(46,42,38,.04), 0 8px 24px -12px rgba(46,42,38,.14);
+  --shadow-lift:0 2px 4px rgba(46,42,38,.05), 0 18px 40px -18px rgba(46,42,38,.24);
+  --measure:44rem;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#1a1715;
+    --bg-raised:#221e1b;
+    --ink:#f0e9e1;
+    --ink-soft:#b5aa9e;
+    --ink-faint:#7d736a;
+    --line:#332d28;
+    --accent:#e08b60;
+    --accent-soft:#3a2b22;
+    --accent-deep:#f0a87f;
+    --shadow:0 1px 2px rgba(0,0,0,.2), 0 8px 24px -12px rgba(0,0,0,.5);
+    --shadow-lift:0 2px 4px rgba(0,0,0,.24), 0 18px 40px -18px rgba(0,0,0,.6);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Base
+------------------------------------------------------------------ */
+*,*::before,*::after{box-sizing:border-box}
+
+html{
+  -webkit-text-size-adjust:100%;
+  scroll-behavior:smooth;
+  scroll-padding-top:2rem;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:clamp(1rem,.96rem + .2vw,1.075rem);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* Soft warm wash behind the header */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0 0 auto 0;
+  height:60vh;
+  background:
+    radial-gradient(70% 60% at 12% 0%, var(--accent-soft) 0%, transparent 62%),
+    radial-gradient(50% 50% at 88% 4%, var(--accent-soft) 0%, transparent 58%);
+  opacity:.7;
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{
+  position:relative;
+  z-index:1;
+  max-width:var(--measure);
+  margin-inline:auto;
+  padding:clamp(3rem,9vw,6rem) clamp(1.25rem,5vw,2rem) 4rem;
+}
+
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-deep);text-decoration:underline;text-underline-offset:3px}
+a:focus-visible,button:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+  border-radius:6px;
+}
+
+h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.01em;line-height:1.15;margin:0}
+
+/* ------------------------------------------------------------------
+   Header
+------------------------------------------------------------------ */
+header{margin-bottom:clamp(3rem,7vw,4.5rem)}
+
+.avatar{
+  width:76px;height:76px;
+  border-radius:50%;
+  display:grid;place-items:center;
+  background:linear-gradient(150deg,var(--accent) 0%,var(--accent-deep) 100%);
+  color:#fff;
+  font-family:var(--serif);
+  font-size:2rem;
+  letter-spacing:.02em;
+  margin-bottom:1.5rem;
+  box-shadow:var(--shadow);
+  user-select:none;
+}
+
+h1{font-size:clamp(2.25rem,1.6rem + 2.8vw,3.25rem);margin-bottom:.6rem}
+
+.tagline{
+  font-size:clamp(1.1rem,1.02rem + .4vw,1.3rem);
+  color:var(--ink-soft);
+  max-width:34rem;
+  margin:0 0 1.75rem;
+}
+
+.bio{color:var(--ink-soft);max-width:36rem;margin:0 0 2rem}
+.bio strong{color:var(--ink);font-weight:600}
+
+/* Contact chips */
+.links{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;margin:0;padding:0}
+.links a{
+  display:inline-flex;align-items:center;gap:.45rem;
+  padding:.45rem .85rem;
+  font-size:.9rem;font-weight:500;
+  color:var(--ink-soft);
+  background:var(--bg-raised);
+  border:1px solid var(--line);
+  border-radius:999px;
+  transition:transform .16s ease, border-color .16s ease, color .16s ease, box-shadow .16s ease;
+}
+.links a:hover{
+  color:var(--accent);
+  border-color:var(--accent);
+  text-decoration:none;
+  transform:translateY(-1px);
+  box-shadow:var(--shadow);
+}
+.links svg{width:15px;height:15px;flex:none}
+
+/* ------------------------------------------------------------------
+   Sections
+------------------------------------------------------------------ */
+section{margin-bottom:clamp(3rem,7vw,4.5rem)}
+
+.section-title{
+  font-size:.78rem;
+  font-family:var(--sans);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.11em;
+  color:var(--ink-faint);
+  display:flex;align-items:center;gap:1rem;
+  margin-bottom:1.75rem;
+}
+.section-title::after{
+  content:"";flex:1;height:1px;background:var(--line);
+}
+
+/* ------------------------------------------------------------------
+   Project cards
+------------------------------------------------------------------ */
+.projects{display:grid;gap:1rem}
+
+.card{
+  position:relative;
+  display:block;
+  padding:1.4rem 1.5rem;
+  background:var(--bg-raised);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  color:inherit;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.card:hover{
+  text-decoration:none;
+  transform:translateY(-3px);
+  box-shadow:var(--shadow-lift);
+  border-color:var(--accent);
+}
+.card:hover .card-title{color:var(--accent)}
+.card:hover .arrow{transform:translate(3px,-3px);opacity:1}
+
+.card-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+.card-title{
+  font-family:var(--serif);
+  font-size:1.25rem;
+  font-weight:600;
+  color:var(--ink);
+  transition:color .18s ease;
+}
+.arrow{
+  flex:none;
+  color:var(--accent);
+  opacity:.45;
+  transition:transform .18s ease, opacity .18s ease;
+}
+.card p{margin:.5rem 0 0;color:var(--ink-soft);font-size:.96rem}
+
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.9rem}
+.tag{
+  font-size:.72rem;font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;
+  color:var(--accent-deep);
+  background:var(--accent-soft);
+  padding:.22rem .6rem;
+  border-radius:999px;
+}
+
+.card-url{
+  display:block;
+  margin-top:.75rem;
+  font-size:.82rem;
+  color:var(--ink-faint);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ------------------------------------------------------------------
+   Writing list
+------------------------------------------------------------------ */
+.posts{list-style:none;margin:0;padding:0}
+.posts li{border-bottom:1px solid var(--line)}
+.posts li:first-child{border-top:1px solid var(--line)}
+.posts a{
+  display:flex;align-items:baseline;justify-content:space-between;gap:1.25rem;
+  padding:.95rem .25rem;
+  color:var(--ink);
+  transition:color .16s ease, padding-left .16s ease;
+}
+.posts a:hover{text-decoration:none;color:var(--accent);padding-left:.6rem}
+.posts .date{
+  flex:none;font-size:.82rem;color:var(--ink-faint);
+  font-variant-numeric:tabular-nums;
+}
+
+.empty{
+  color:var(--ink-faint);
+  font-size:.95rem;
+  font-style:italic;
+  padding:1.25rem;
+  border:1px dashed var(--line);
+  border-radius:var(--radius);
+  margin:0;
+}
+
+/* ------------------------------------------------------------------
+   Experience timeline
+------------------------------------------------------------------ */
+.timeline{list-style:none;margin:0;padding:0 0 0 1.5rem;border-left:2px solid var(--line)}
+.timeline li{position:relative;padding-bottom:1.75rem}
+.timeline li:last-child{padding-bottom:0}
+.timeline li::before{
+  content:"";position:absolute;
+  left:calc(-1.5rem - 6px);top:.55rem;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--accent);
+  border:2px solid var(--bg);
+}
+.role{font-family:var(--serif);font-size:1.1rem;font-weight:600;margin:0}
+.org{color:var(--ink-soft);font-size:.94rem;margin:.1rem 0 0}
+.period{
+  display:block;font-size:.78rem;color:var(--ink-faint);
+  letter-spacing:.04em;text-transform:uppercase;margin-top:.3rem;
+  font-variant-numeric:tabular-nums;
+}
+.timeline p.detail{margin:.55rem 0 0;color:var(--ink-soft);font-size:.94rem}
+
+/* ------------------------------------------------------------------
+   Contact + footer
+------------------------------------------------------------------ */
+.contact{
+  padding:1.75rem;
+  background:var(--bg-raised);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.contact p{margin:0 0 1.1rem;color:var(--ink-soft)}
+.contact .big{
+  font-family:var(--serif);
+  font-size:clamp(1.3rem,1.1rem + .8vw,1.6rem);
+  color:var(--ink);
+  margin-bottom:.6rem;
+}
+
+footer{
+  padding-top:2.5rem;
+  border-top:1px solid var(--line);
+  font-size:.85rem;
+  color:var(--ink-faint);
+  display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;justify-content:space-between;
+}
+footer a{color:var(--ink-faint)}
+footer a:hover{color:var(--accent)}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+
+<body>
+<main class="wrap">
+
+  <!-- ============================================================
+       HEADER — edit your name, tagline and bio here
+  ============================================================ -->
+  <header>
+    <div class="avatar" aria-hidden="true">SR</div>
+    <h1>Samuel Roys</h1>
+    <p class="tagline">I build small, sharp tools that solve a specific problem well.</p>
+
+    <p class="bio">
+      Most of what's below started as something I needed and couldn't find — a timing
+      sheet that actually did the math, a worksheet generator that printed correctly.
+      They're all <strong>free, fast and run entirely in your browser</strong>. If one of
+      them is useful to you, that's the whole point.
+    </p>
+
+    <ul class="links">
+      <li><a href="mailto:samueljroys@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        Email</a></li>
+      <li><a href="https://github.com/" rel="me noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.2.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+        GitHub</a></li>
+    </ul>
+  </header>
+
+  <!-- ============================================================
+       PROJECTS — copy a <a class="card"> block to add another
+  ============================================================ -->
+  <section id="projects">
+    <h2 class="section-title">Things I've built</h2>
+
+    <div class="projects">
+
+      <a class="card" href="https://timing.samuelroys.com" rel="noopener">
+        <div class="card-head">
+          <span class="card-title">Timing Calculator</span>
+          <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </div>
+        <p>
+          Works out episode record targets from an air total. Budget your segments,
+          inserts and fixed times, and it tells you exactly how long the cold open has to
+          run to land the episode on the nose. Everything saves as you type.
+        </p>
+        <div class="tags">
+          <span class="tag">Broadcast</span>
+          <span class="tag">Production tool</span>
+        </div>
+        <span class="card-url">timing.samuelroys.com</span>
+      </a>
+
+      <a class="card" href="https://handwriting.samuelroys.com" rel="noopener">
+        <div class="card-head">
+          <span class="card-title">Cursive Handwriting Practice Sheets</span>
+          <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </div>
+        <p>
+          Paste any text and get letter-size practice pages — cursive or manuscript,
+          solid or dotted for tracing, four line sizes. Prints properly the first time,
+          or save straight to PDF.
+        </p>
+        <div class="tags">
+          <span class="tag">Education</span>
+          <span class="tag">Printable</span>
+        </div>
+        <span class="card-url">handwriting.samuelroys.com</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WRITING — swap the .empty note for <li> entries as you publish
+  ============================================================ -->
+  <section id="writing">
+    <h2 class="section-title">Writing</h2>
+
+    <!-- When you have posts, delete the <p class="empty"> line and
+         uncomment the list below. -->
+    <p class="empty">Nothing published yet — first piece is in progress.</p>
+
+    <!--
+    <ul class="posts">
+      <li>
+        <a href="#">Why the cold open is always taped last</a>
+        <span class="date">Aug 2026</span>
+      </li>
+      <li>
+        <a href="#">Building tools that fit in one HTML file</a>
+        <span class="date">Jul 2026</span>
+      </li>
+    </ul>
+    -->
+  </section>
+
+  <!-- ============================================================
+       EXPERIENCE — replace the placeholder entries with your history
+  ============================================================ -->
+  <section id="experience">
+    <h2 class="section-title">Experience</h2>
+
+    <ul class="timeline">
+      <li>
+        <p class="role">Your role here</p>
+        <p class="org">Organization</p>
+        <span class="period">2024 — Present</span>
+        <p class="detail">
+          One or two sentences on what you do and what you've shipped.
+          Replace this block with your real history.
+        </p>
+      </li>
+      <li>
+        <p class="role">Previous role</p>
+        <p class="org">Organization</p>
+        <span class="period">2021 — 2024</span>
+        <p class="detail">
+          Copy this <code>&lt;li&gt;</code> block to add more entries.
+        </p>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============================================================
+       CONTACT
+  ============================================================ -->
+  <section id="contact">
+    <h2 class="section-title">Get in touch</h2>
+    <div class="contact">
+      <p class="big">Have an idea, or want one of these tweaked for your workflow?</p>
+      <p>I'm happy to hear from you — a short email is fine.</p>
+      <ul class="links">
+        <li><a href="mailto:samueljroys@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+          samueljroys@gmail.com</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <span>© <span id="year">2026</span> Samuel Roys</span>
+    <span>Built by hand. One file, no tracking.</span>
+  </footer>
+
+</main>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
